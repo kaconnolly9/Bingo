@@ -69,12 +69,14 @@ const App = () => {
     };
 
     return (
+        /* Force dark background and white text for the whole page */
         <div className="min-h-screen bg-[#0a0e1a] text-white p-4 font-sans">
             <div className="max-w-md mx-auto animate-in">
                 <header className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-2xl font-black tracking-tighter text-indigo-500">{gameTitle}</h1>
-                        <p className="text-xs text-slate-500 font-bold tracking-widest">BINGO EDITION</p>
+                        /* High contrast title */
+                        <h1 className="text-3xl font-black tracking-tighter text-indigo-400">{gameTitle}</h1>
+                        <p className="text-xs text-slate-400 font-bold tracking-widest">BINGO EDITION</p>
                     </div>
                     <button onClick={() => setShowSettings(!showSettings)} className="p-2 rounded-full bg-slate-800 hover:bg-indigo-600 transition-colors">
                         ⚙️
@@ -82,24 +84,24 @@ const App = () => {
                 </header>
 
                 {showSettings && (
-                    <div className="mb-6 p-4 bg-slate-900 rounded-xl border border-slate-800 space-y-4">
+                    <div className="mb-6 p-4 bg-slate-900 rounded-xl border border-slate-700 space-y-4">
                         <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1 uppercase">Game Title</label>
-                            <input value={gameTitle} onChange={(e) => setGameTitle(e.target.value)} className="w-full bg-[#1c253d] border border-slate-800 rounded p-2 text-sm focus:border-indigo-500 outline-none" />
+                            <label className="block text-xs font-bold text-slate-400 mb-1 uppercase">Game Title</label>
+                            <input value={gameTitle} onChange={(e) => setGameTitle(e.target.value)} className="w-full bg-[#1c253d] border border-slate-700 rounded p-2 text-sm text-white focus:border-indigo-500 outline-none" />
                         </div>
                         <div>
-                            <label className="block text-xs font-bold text-slate-500 mb-1 uppercase">Bingo Items (One per line)</label>
-                            <textarea value={itemsText} onChange={(e) => setItemsText(e.target.value)} rows="6" className="w-full bg-[#1c253d] border border-slate-800 rounded p-2 text-xs focus:border-indigo-500 outline-none" />
+                            <label className="block text-xs font-bold text-slate-400 mb-1 uppercase">Bingo Items</label>
+                            <textarea value={itemsText} onChange={(e) => setItemsText(e.target.value)} rows="6" className="w-full bg-[#1c253d] border border-slate-700 rounded p-2 text-xs text-white focus:border-indigo-500 outline-none" />
                         </div>
                         <div className="flex gap-2">
-                            <button onClick={generateCard} className="flex-1 bg-indigo-600 hover:bg-indigo-500 py-2 rounded font-bold text-sm">New Game</button>
-                            <button onClick={saveToList} className="bg-slate-800 px-4 py-2 rounded text-sm font-bold">Save</button>
+                            <button onClick={generateCard} className="flex-1 bg-indigo-600 hover:bg-indigo-500 py-2 rounded font-bold text-sm text-white">New Game</button>
+                            <button onClick={saveToList} className="bg-slate-800 px-4 py-2 rounded text-sm font-bold text-white">Save</button>
                         </div>
                     </div>
                 )}
 
-                <div className="bg-slate-900 p-3 rounded-2xl border border-slate-800 shadow-2xl">
-                    <div className="grid grid-cols-5 gap-2 mb-4 text-center font-black text-2xl text-indigo-500">
+                <div className="bg-[#151b2d] p-4 rounded-2xl border border-slate-700 shadow-2xl">
+                    <div className="grid grid-cols-5 gap-2 mb-4 text-center font-black text-2xl text-indigo-400">
                         {['B','I','N','G','O'].map(l => <div key={l}>{l}</div>)}
                     </div>
                     <div className="grid grid-cols-5 gap-2">
@@ -107,10 +109,11 @@ const App = () => {
                             <div 
                                 key={i} 
                                 onClick={() => toggleMark(i)}
-                                className={`aspect-square flex items-center justify-center p-1 text-center text-[10px] font-bold rounded-lg cursor-pointer transition-all border-2 
-                                    ${i === 12 ? 'bg-indigo-900/40 border-indigo-500 text-indigo-300' : 
-                                    marked.has(i) ? 'bg-indigo-600 border-indigo-500 text-white scale-95 shadow-inner' : 
-                                    'bg-[#1c253d] border-slate-800 hover:border-slate-600'}`}
+                                /* Added text-white to both marked and unmarked states */
+                                className={`aspect-square flex items-center justify-center p-2 text-center text-[9px] font-bold rounded-lg cursor-pointer transition-all border-2 
+                                    ${i === 12 ? 'bg-indigo-900/60 border-indigo-500 text-indigo-200' : 
+                                    marked.has(i) ? 'bg-indigo-600 border-indigo-400 text-white scale-95 shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 
+                                    'bg-[#1c253d] border-slate-700 text-white hover:border-indigo-500 hover:bg-[#252f4d]'}`}
                             >
                                 {item}
                             </div>
@@ -119,7 +122,7 @@ const App = () => {
                 </div>
 
                 {winMode && (
-                    <div className="mt-6 text-center animate-bounce text-xl font-black text-indigo-400">
+                    <div className="mt-8 text-center animate-bounce text-3xl font-black text-indigo-400 drop-shadow-lg">
                         🎉 BINGO! 🎉
                     </div>
                 )}

@@ -24,9 +24,8 @@ const App = () => {
     const [showSettings, setShowSettings] = useState(false);
     const [library, setLibrary] = useState([]);
 
-    // Logic to count valid lines and check if the list is long enough
-    const itemCount = itemsText.split('\n').map(w => w.trim()).filter(w => w).length;[cite: 1]
-    const isValid = itemCount >= 24;[cite: 1]
+    const itemCount = itemsText.split('\n').map(w => w.trim()).filter(w => w).length;
+    const isValid = itemCount >= 24;
 
     useEffect(() => {
         const saved = localStorage.getItem('bingo_library');
@@ -55,7 +54,7 @@ const App = () => {
     }, [marked, winMode]);
 
     const generateCard = () => {
-        if (!isValid) return; // Prevent generating if minimum not met
+        if (!isValid) return;
         const words = itemsText.split('\n').map(w => w.trim()).filter(w => w);
         const shuffled = [...words].sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, 24);
@@ -137,23 +136,21 @@ const App = () => {
                 </header>
 
                 {showSettings && (
-                    <div className="mb-6 p-4 bg-slate-900 rounded-xl border border-slate-700 space-y-4">
-                        <input value={gameTitle} onChange={(e) => setGameTitle(e.target.value)} placeholder="Game Title" className="w-full bg-[#1c253d] border border-slate-700 rounded p-2 text-white outline-none" />
+                    <div className="mb-6 p-4 bg-slate-900 rounded-xl border border-slate-700 space-y-4 shadow-xl">
+                        <input value={gameTitle} onChange={(e) => setGameTitle(e.target.value)} placeholder="Game Title" className="w-full bg-[#1c253d] border border-slate-700 rounded p-2 text-white outline-none focus:border-indigo-500" />
                         
                         <div>
                             <div className="flex justify-between items-center mb-1">
                                 <label className="text-[10px] font-bold text-slate-500 uppercase">Bingo Items</label>
-                                {/* Item Counter Added Here */}
                                 <span className={`text-[10px] font-bold ${isValid ? 'text-green-500' : 'text-red-500'}`}>
                                     {itemCount}/24
                                 </span>
                             </div>
-                            <textarea value={itemsText} onChange={(e) => setItemsText(e.target.value)} rows="4" className="w-full bg-[#1c253d] border border-slate-700 rounded p-2 text-xs text-white outline-none" />
+                            <textarea value={itemsText} onChange={(e) => setItemsText(e.target.value)} rows="4" className="w-full bg-[#1c253d] border border-slate-700 rounded p-2 text-xs text-white outline-none focus:border-indigo-500" />
                             {!isValid && <p className="text-[9px] text-red-400 mt-1 italic">Need at least 24 items to play.</p>}
                         </div>
 
                         <div className="flex gap-2">
-                            {/* Shuffle button now disables if invalid */}
                             <button 
                                 onClick={generateCard} 
                                 disabled={!isValid}
@@ -166,14 +163,14 @@ const App = () => {
                         
                         {library.length > 0 && (
                             <div className="pt-4 border-t border-slate-800">
-                                <p className="text-[10px] font-bold text-slate-500 uppercase mb-2 text-white">Saved Lists</p>
-                                <div className="space-y-2 max-h-32 overflow-y-auto">
+                                <p className="text-[10px] font-bold text-slate-500 uppercase mb-2">Saved Lists</p>
+                                <div className="space-y-2 max-h-32 overflow-y-auto pr-1">
                                     {library.map(list => (
-                                        <div key={list.id} className="flex justify-between items-center bg-[#1c253d] p-2 rounded border border-slate-800">
-                                            <button onClick={() => loadList(list)} className="text-xs font-bold text-indigo-300 hover:text-white truncate">{list.title}</button>
-                                            <div className="flex gap-2">
-                                                <button onClick={() => copyShareLink(list)} className="text-[9px] bg-indigo-900/50 text-indigo-300 px-2 py-1 rounded hover:bg-indigo-600 hover:text-white">Share</button>
-                                                <button onClick={() => deleteList(list.id)} className="text-slate-500 hover:text-red-500 font-bold px-1">×</button>
+                                        <div key={list.id} className="flex justify-between items-center bg-[#1c253d] p-2 rounded border border-slate-800 hover:border-slate-600 transition-colors">
+                                            <button onClick={() => loadList(list)} className="text-xs font-bold text-indigo-300 hover:text-white truncate flex-1 text-left">{list.title}</button>
+                                            <div className="flex gap-2 ml-2">
+                                                <button onClick={() => copyShareLink(list)} className="text-[9px] bg-indigo-900/50 text-indigo-300 px-2 py-1 rounded hover:bg-indigo-600 hover:text-white transition-colors">Share</button>
+                                                <button onClick={() => deleteList(list.id)} className="text-slate-500 hover:text-red-500 font-bold px-1 transition-colors">×</button>
                                             </div>
                                         </div>
                                     ))}
@@ -185,16 +182,16 @@ const App = () => {
 
                 <div className="mb-4 flex justify-center gap-2 bg-[#151b2d] p-1.5 rounded-xl border border-slate-700">
                     {['STANDARD', 'CORNERS', 'BLACKOUT'].map(m => (
-                        <button key={m} onClick={() => setWinMode(m)} className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${winMode === m ? 'bg-indigo-600 text-white' : 'text-slate-500 hover:text-slate-300'}`}>{m}</button>
+                        <button key={m} onClick={() => setWinMode(m)} className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${winMode === m ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}>{m}</button>
                     ))}
                 </div>
 
                 <div className="bg-[#151b2d] p-4 rounded-2xl border border-slate-700 shadow-2xl relative overflow-hidden">
                     {hasWon && (
-                        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-indigo-900/90 backdrop-blur-sm">
-                            <h2 className="text-5xl font-black italic mb-2">BINGO!</h2>
-                            <p className="text-sm font-bold uppercase opacity-80">{winMode} WINNER</p>
-                            <button onClick={() => setHasWon(false)} className="mt-6 px-6 py-2 bg-white text-indigo-900 rounded-full font-black hover:scale-105 transition-transform">Keep Playing</button>
+                        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-indigo-900/90 backdrop-blur-sm transition-opacity">
+                            <h2 className="text-5xl font-black italic mb-2 drop-shadow-lg">BINGO!</h2>
+                            <p className="text-sm font-bold uppercase tracking-widest opacity-80">{winMode} WINNER</p>
+                            <button onClick={() => setHasWon(false)} className="mt-6 px-6 py-2 bg-white text-indigo-900 rounded-full font-black hover:scale-105 transition-transform shadow-xl">Keep Playing</button>
                         </div>
                     )}
                     <div className="grid grid-cols-5 gap-2 mb-4 text-center font-black text-2xl text-indigo-400">
@@ -202,7 +199,7 @@ const App = () => {
                     </div>
                     <div className="grid grid-cols-5 gap-2">
                         {card.map((item, i) => (
-                            <div key={i} onClick={() => toggleMark(i)} className={`aspect-square flex items-center justify-center p-2 text-center text-[9px] font-bold rounded-lg cursor-pointer transition-all border-2 ${i === 12 ? 'bg-indigo-900/60 border-indigo-500 text-indigo-200' : marked.has(i) ? 'bg-indigo-600 border-indigo-400 text-white scale-95' : 'bg-[#1c253d] border-slate-700 text-white hover:border-indigo-500'}`}>{item}</div>
+                            <div key={i} onClick={() => toggleMark(i)} className={`aspect-square flex items-center justify-center p-2 text-center text-[9px] font-bold rounded-lg cursor-pointer transition-all border-2 ${i === 12 ? 'bg-indigo-900/60 border-indigo-500 text-indigo-200' : marked.has(i) ? 'bg-indigo-600 border-indigo-400 text-white scale-95 shadow-inner' : 'bg-[#1c253d] border-slate-700 text-white hover:border-indigo-400'}`}>{item}</div>
                         ))}
                     </div>
                 </div>
